@@ -42,8 +42,6 @@ extern "C" int capture_image()
 // Begin the capture and wait for it to finish
 TfLiteStatus PerformCapture(tflite::ErrorReporter *error_reporter,
                             int8_t *image_data)
-// TfLiteStatus PerformCapture(tflite::ErrorReporter *error_reporter,
-//                             uint8_t *image_data)
 {
     /* 2. Get one image with camera */
     int ret = capture_image();
@@ -61,8 +59,6 @@ TfLiteStatus PerformCapture(tflite::ErrorReporter *error_reporter,
 // Get an image from the camera module
 TfLiteStatus GetImage(tflite::ErrorReporter *error_reporter, int image_width,
                       int image_height, int channels, int8_t *image_data)
-// TfLiteStatus GetImage(tflite::ErrorReporter *error_reporter, int image_width,
-//                       int image_height, int channels, uint8_t *image_data)
 {
     static bool g_is_camera_initialized = false;
     if (!g_is_camera_initialized)

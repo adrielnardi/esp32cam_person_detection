@@ -1,5 +1,4 @@
 #include "main_functions.h"
-#include "detection_responder.h"
 #include "image_provider.h"
 #include "model_settings.h"
 #include "person_detect_model_data.h"
@@ -8,6 +7,12 @@
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #include "tensorflow/lite/version.h"
+
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/gpio.h"
+#include "sdkconfig.h"
 
 // Globals, used for compatibility with Arduino-style sketches.
 namespace
@@ -58,12 +63,15 @@ void setup()
     //
     // tflite::AllOpsResolver resolver;
     // NOLINTNEXTLINE(runtime-global-variables)
-    static tflite::MicroMutableOpResolver<5> micro_op_resolver;
+    static tflite::MicroMutableOpResolver<8> micro_op_resolver;
     micro_op_resolver.AddAveragePool2D();
     micro_op_resolver.AddConv2D();
     micro_op_resolver.AddDepthwiseConv2D();
     micro_op_resolver.AddReshape();
     micro_op_resolver.AddSoftmax();
+    micro_op_resolver.AddMaxPool2D();
+    micro_op_resolver.AddFullyConnected();
+    micro_op_resolver.AddDequantize();
 
     // Build an interpreter to run the model with.
     // NOLINTNEXTLINE(runtime-global-variables)
@@ -104,5 +112,11 @@ void loop()
     // Process the inference results.
     int8_t person_score = output->data.uint8[kPersonIndex];
     int8_t no_person_score = output->data.uint8[kNotAPersonIndex];
-    RespondToDetection(error_reporter, person_score, no_person_score);
+    if (person_score > no_person_score)
+        printf("Person detected\n");
+    else
+        printf("No person detected\n");
+
+    // Delay for 1 second
+    // vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
