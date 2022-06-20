@@ -1,6 +1,6 @@
 # Person Detection with ESP32Cam and TensorFlow
 
-Person detection project for ESP32Cam (tested on AI Thinker version) using [ESP-IDF](https://github.com/espressif/esp-idf) and [TensorFlow Lite](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite).
+Person detection project for ESP32Cam (tested on AI Thinker version) using TinyML Model, [ESP-IDF](https://github.com/espressif/esp-idf) and [TensorFlow Lite](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite).
 
 ### Prerequisites
 
